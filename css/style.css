@@ -1,0 +1,350 @@
+/* Mengatur body agar menjadi flex container vertikal dan memiliki background grid */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #0D1117; 
+    color: #C9D1D9; 
+    
+    /* Properti untuk "sticky footer" */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    /* Background grid sekarang diterapkan langsung di sini */
+    background-image:
+        linear-gradient(to right, rgba(45, 52, 64, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(45, 52, 64, 0.2) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* Wrapper ini akan "tumbuh" dan mendorong footer ke bawah */
+.content-wrapper {
+    flex-grow: 1; 
+}
+
+.gradient-text {
+    background-image: linear-gradient(to right, #3B82F6, #14B8A6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent; 
+}
+
+/* Blink animation untuk typing cursor */
+@keyframes blink {
+    0%, 100% { 
+        opacity: 1; 
+    }
+    50% { 
+        opacity: 0; 
+    }
+}
+
+#typing-cursor {
+    animation: blink 1s infinite;
+    font-weight: bold;
+    color: #3B82F6;
+}
+
+/* --- Gaya Kartu Keahlian --- */
+.skill-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+.skill-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* --- Gaya Tombol Tab (About) --- */
+.tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem; 
+  padding: 0.5rem 0.75rem; 
+  border-radius: 0.5rem; 
+  font-weight: 600; 
+  color: #9CA3AF; 
+  background-color: transparent; 
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+.tab-btn:not(.active):hover {
+    color: #FFFFFF; 
+}
+.tab-btn.active {
+  color: #FFFFFF; 
+  background-color: #2563EB; 
+  padding: 0.5rem 1.25rem; 
+}
+
+/* --- Gaya Timeline (About) --- */
+.timeline {
+    position: relative;
+    border-left: 2px solid #4B5563; 
+    padding-left: 2rem; 
+}
+.timeline-item {
+    position: relative;
+    padding-bottom: 2.5rem; 
+}
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -42px; 
+    top: 5px;
+    width: 14px;
+    height: 14px;
+    border-radius: 9999px;
+    background-color: #374151; 
+    border: 3px solid #14B8A6; 
+}
+
+/* --- Gaya Kartu Proyek --- */
+.project-card {
+  transition: all 0.3s ease;
+}
+.project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* --- Gaya Scroller Sertifikat --- */
+.scroller {
+  max-width: 100%;
+  overflow: hidden;
+  -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+  mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
+}
+.scroller__inner {
+  display: flex;
+  gap: 1rem; 
+  padding-block: 1rem;
+  width: max-content; 
+  animation: scroll 40s linear infinite;
+}
+.scroller:hover .scroller__inner {
+    animation-play-state: paused;
+}
+@keyframes scroll {
+  to {
+    transform: translate(calc(-50% - 0.5rem));
+  }
+}
+.certificate-card {
+  width: 250px; 
+  flex-shrink: 0; 
+  text-align: center;
+}
+.certificate-card img {
+  width: 100%;
+  border-radius: 0.5rem; 
+  border: 1px solid #4B5563; 
+}
+
+/* --- Gaya Kartu Kontak --- */
+.contact-card {
+    position: relative;
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem; 
+    background-color: #161B22;
+    border: 1px solid #30363D;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.contact-card:hover {
+    border-color: #3B82F6;
+    transform: translateY(-8px);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.1); 
+}
+.contact-card .icon-wrapper {
+    display: inline-flex;
+    padding: 1rem; 
+    border-radius: 0.75rem;
+    margin-bottom: 0.5rem; 
+}
+.send-icon {
+    position: absolute;
+    bottom: -50px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    color: #60A5FA;
+    opacity: 0; 
+    transform: rotate(-20deg) scale(0.8);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+}
+.contact-card:hover .send-icon {
+    bottom: 20px;
+    opacity: 1;
+    transform: rotate(0deg) scale(1);
+}
+
+.social-icon {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 2.5rem; 
+    height: 2.5rem; 
+    border-radius: 9999px; 
+    background-color: #374151; 
+    color: #D1D5DB;
+    transition: all 0.2s ease;
+}
+.social-icon:hover {
+    background-color: #2563EB; 
+    color: white;
+    transform: scale(1.1);
+}
+
+/* Sembunyikan scrollbar default */
+html {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+    display: none;
+}
+
+/* Perbaiki custom scroll indicator */
+#scroll-indicator-track {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 6px;
+    background-color: rgba(22, 27, 34, 0.8);
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#scroll-indicator-track:hover {
+    background-color: rgba(22, 27, 34, 0.9);
+    width: 8px;
+}
+
+#scroll-indicator-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, #3B82F6, #14B8A6);
+    border-radius: 3px;
+    transition: height 0.1s ease;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+    cursor: grab;
+}
+
+#scroll-indicator-thumb:hover {
+    background: linear-gradient(to bottom, #2563EB, #0D9488);
+}
+
+#scroll-indicator-thumb:active {
+    cursor: grabbing;
+}
+
+/* Pastikan body bisa discroll dengan wheel */
+body {
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* Atau tambahkan konten tambahan di HTML */
+.extra-content {
+    height: 1000px; /* Untuk testing scroll */
+    background: linear-gradient(transparent, rgba(59, 130, 246, 0.1));
+}
+/* Style untuk navigasi aktif */
+.nav-link.active {
+    background-image: linear-gradient(to right, #3B82F6, #14B8A6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
+}
+
+/* Style untuk mobile menu (jika ada) */
+.mobile-nav-link.active {
+    background-image: linear-gradient(to right, #3B82F6, #14B8A6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
+}
+
+/* === TAMBAHKAN INI: Mobile Menu Styles === */
+#mobile-menu {
+    transition: all 0.3s ease-in-out;
+    overflow-y: auto; /* Biarkan mobile menu bisa di-scroll */
+}
+
+#mobile-menu:not(.hidden) {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Style untuk mobile nav link aktif */
+.mobile-nav-link.active {
+    background-image: linear-gradient(to right, #3B82F6, #14B8A6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Pastikan body tetap bisa di-scroll */
+body {
+    overflow-y: auto !important;
+    overflow-x: hidden;
+}
+
+/* Style untuk mobile nav link aktif */
+.mobile-nav-link.active {
+    background-image: linear-gradient(to right, #3B82F6, #14B8A6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Smooth scroll behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Style untuk section active */
+section:target {
+    animation: highlight 2s ease;
+}
+
+@keyframes highlight {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(59, 130, 246, 0.1); }
+    100% { background-color: transparent; }
+}
+
+/* Pastikan konten cukup panjang */
+.content-wrapper {
+    min-height: 100vh;
+}
+
+/* Perbaiki height untuk mobile */
+@media (max-width: 768px) {
+    body {
+        min-height: 100vh;
+    }
+}
