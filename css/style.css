@@ -1,26 +1,70 @@
-/* Mengatur body agar menjadi flex container vertikal dan memiliki background grid */
+/* === 1. Global Styles & Resets === */
+html {
+    /* Sembunyikan scrollbar default */
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE 10+ */
+    
+    /* Aktifkan smooth scroll */
+    scroll-behavior: smooth;
+}
+
+html::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     background-color: #0D1117; 
     color: #C9D1D9; 
+    
+    /* Background grid */
+    background-image:
+        linear-gradient(to right, rgba(45, 52, 64, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(45, 52, 64, 0.2) 1px, transparent 1px);
+    background-size: 40px 40px;
     
     /* Properti untuk "sticky footer" */
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 
-    /* Background grid sekarang diterapkan langsung di sini */
-    background-image:
-        linear-gradient(to right, rgba(45, 52, 64, 0.2) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(45, 52, 64, 0.2) 1px, transparent 1px);
-    background-size: 40px 40px;
+    /* Pastikan body bisa di-scroll */
+    overflow-y: auto;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
 }
 
-/* Wrapper ini akan "tumbuh" dan mendorong footer ke bawah */
-.content-wrapper {
-    flex-grow: 1; 
+/* === 2. Animasi (Keyframes) === */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
 }
 
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes scroll {
+  to {
+    transform: translate(calc(-50% - 0.5rem));
+  }
+}
+
+@keyframes highlight {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(59, 130, 246, 0.1); }
+    100% { background-color: transparent; }
+}
+
+/* === 3. Utility & Layout === */
 .gradient-text {
     background-image: linear-gradient(to right, #3B82F6, #14B8A6);
     -webkit-background-clip: text;
@@ -28,23 +72,85 @@ body {
     color: transparent; 
 }
 
-/* Blink animation untuk typing cursor */
-@keyframes blink {
-    0%, 100% { 
-        opacity: 1; 
-    }
-    50% { 
-        opacity: 0; 
-    }
+/* Perbaikan Sticky Footer: 
+   Ini akan mendorong footer ke bagian bawah halaman secara otomatis 
+   jika kontennya pendek, tanpa perlu div .content-wrapper. */
+footer {
+    margin-top: auto;
 }
 
+/* Style untuk section active (saat link # di-klik) */
+section:target {
+    animation: highlight 2s ease;
+}
+
+/* Custom Scroll Indicator */
+#scroll-indicator-track {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 6px;
+    background-color: rgba(22, 27, 34, 0.8);
+    z-index: 1000;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#scroll-indicator-track:hover {
+    background-color: rgba(22, 27, 34, 0.9);
+    width: 8px;
+}
+#scroll-indicator-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background: linear-gradient(to bottom, #3B82F6, #14B8A6);
+    border-radius: 3px;
+    transition: height 0.1s ease;
+    box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
+    cursor: grab;
+}
+#scroll-indicator-thumb:hover {
+    background: linear-gradient(to bottom, #2563EB, #0D9488);
+}
+#scroll-indicator-thumb:active {
+    cursor: grabbing;
+}
+
+/* === 4. Komponen: Header & Navigasi === */
+.nav-link.active {
+    background-image: linear-gradient(to right, #3B82F6, #14B8A6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600;
+}
+
+/* Mobile Menu Styles */
+#mobile-menu {
+    transition: all 0.3s ease-in-out;
+    overflow-y: auto; /* Biarkan mobile menu bisa di-scroll */
+}
+#mobile-menu:not(.hidden) {
+    animation: slideIn 0.3s ease-out;
+}
+.mobile-nav-link.active {
+    background-image: linear-gradient(to right, #3B82F6, #14B8A6);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-weight: 600; /* Konsisten dengan .nav-link.active */
+}
+
+/* === 5. Komponen: Section Home === */
 #typing-cursor {
     animation: blink 1s infinite;
     font-weight: bold;
     color: #3B82F6;
 }
 
-/* --- Gaya Kartu Keahlian --- */
 .skill-card {
   transition: all 0.3s ease;
   cursor: pointer;
@@ -54,7 +160,7 @@ body {
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
 }
 
-/* --- Gaya Tombol Tab (About) --- */
+/* === 6. Komponen: Section About === */
 .tab-btn {
   display: inline-flex;
   align-items: center;
@@ -76,7 +182,6 @@ body {
   padding: 0.5rem 1.25rem; 
 }
 
-/* --- Gaya Timeline (About) --- */
 .timeline {
     position: relative;
     border-left: 2px solid #4B5563; 
@@ -98,7 +203,7 @@ body {
     border: 3px solid #14B8A6; 
 }
 
-/* --- Gaya Kartu Proyek --- */
+/* === 7. Komponen: Section Projects === */
 .project-card {
   transition: all 0.3s ease;
 }
@@ -107,7 +212,7 @@ body {
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
 }
 
-/* --- Gaya Scroller Sertifikat --- */
+/* === 8. Komponen: Section Certificates === */
 .scroller {
   max-width: 100%;
   overflow: hidden;
@@ -124,11 +229,6 @@ body {
 .scroller:hover .scroller__inner {
     animation-play-state: paused;
 }
-@keyframes scroll {
-  to {
-    transform: translate(calc(-50% - 0.5rem));
-  }
-}
 .certificate-card {
   width: 250px; 
   flex-shrink: 0; 
@@ -140,7 +240,7 @@ body {
   border: 1px solid #4B5563; 
 }
 
-/* --- Gaya Kartu Kontak --- */
+/* === 9. Komponen: Section Contact === */
 .contact-card {
     position: relative;
     display: flex; 
@@ -181,6 +281,7 @@ body {
     transform: rotate(0deg) scale(1);
 }
 
+/* === 10. Komponen: Footer === */
 .social-icon {
     display: inline-flex;
     justify-content: center;
@@ -196,155 +297,4 @@ body {
     background-color: #2563EB; 
     color: white;
     transform: scale(1.1);
-}
-
-/* Sembunyikan scrollbar default */
-html {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-}
-
-html::-webkit-scrollbar {
-    display: none;
-}
-
-/* Perbaiki custom scroll indicator */
-#scroll-indicator-track {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    width: 6px;
-    background-color: rgba(22, 27, 34, 0.8);
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-#scroll-indicator-track:hover {
-    background-color: rgba(22, 27, 34, 0.9);
-    width: 8px;
-}
-
-#scroll-indicator-thumb {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: linear-gradient(to bottom, #3B82F6, #14B8A6);
-    border-radius: 3px;
-    transition: height 0.1s ease;
-    box-shadow: 0 0 8px rgba(59, 130, 246, 0.4);
-    cursor: grab;
-}
-
-#scroll-indicator-thumb:hover {
-    background: linear-gradient(to bottom, #2563EB, #0D9488);
-}
-
-#scroll-indicator-thumb:active {
-    cursor: grabbing;
-}
-
-/* Pastikan body bisa discroll dengan wheel */
-body {
-    overflow-y: auto;
-    overflow-x: hidden;
-    margin: 0;
-    padding: 0;
-}
-
-/* Atau tambahkan konten tambahan di HTML */
-.extra-content {
-    height: 1000px; /* Untuk testing scroll */
-    background: linear-gradient(transparent, rgba(59, 130, 246, 0.1));
-}
-/* Style untuk navigasi aktif */
-.nav-link.active {
-    background-image: linear-gradient(to right, #3B82F6, #14B8A6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: 600;
-}
-
-/* Style untuk mobile menu (jika ada) */
-.mobile-nav-link.active {
-    background-image: linear-gradient(to right, #3B82F6, #14B8A6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    font-weight: 600;
-}
-
-/* === TAMBAHKAN INI: Mobile Menu Styles === */
-#mobile-menu {
-    transition: all 0.3s ease-in-out;
-    overflow-y: auto; /* Biarkan mobile menu bisa di-scroll */
-}
-
-#mobile-menu:not(.hidden) {
-    animation: slideIn 0.3s ease-out;
-}
-
-@keyframes slideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Style untuk mobile nav link aktif */
-.mobile-nav-link.active {
-    background-image: linear-gradient(to right, #3B82F6, #14B8A6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-/* Pastikan body tetap bisa di-scroll */
-body {
-    overflow-y: auto !important;
-    overflow-x: hidden;
-}
-
-/* Style untuk mobile nav link aktif */
-.mobile-nav-link.active {
-    background-image: linear-gradient(to right, #3B82F6, #14B8A6);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-}
-
-/* Smooth scroll behavior */
-html {
-    scroll-behavior: smooth;
-}
-
-/* Style untuk section active */
-section:target {
-    animation: highlight 2s ease;
-}
-
-@keyframes highlight {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(59, 130, 246, 0.1); }
-    100% { background-color: transparent; }
-}
-
-/* Pastikan konten cukup panjang */
-.content-wrapper {
-    min-height: 100vh;
-}
-
-/* Perbaiki height untuk mobile */
-@media (max-width: 768px) {
-    body {
-        min-height: 100vh;
-    }
 }
